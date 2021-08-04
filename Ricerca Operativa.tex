@@ -1,0 +1,922 @@
+\documentclass[10pt,a4paper,titlepage]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{amsthm}
+\usepackage{diagbox}
+\usepackage{multicol}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\newtheoremstyle{break}% name
+  {}%         Space above, empty = `usual value'
+  {}%         Space below
+  {}%         Body font
+  {}%         Indent amount (empty = no indent, \parindent = para indent)
+  {\bfseries}%Thm head font
+  {:}%         Punctuation after thm head
+  {\newline}% Space after thm head: \newline = linebreak
+  {}%         Thm head spec
+
+\theoremstyle{break}
+\newtheorem{myDef}{Definizione}
+
+\theoremstyle{break}
+\newtheorem{myProced}{Procedura}
+
+\theoremstyle{break}
+\newtheorem{myThm}{Teorema}
+
+
+\geometry{a4paper,top=1cm,bottom=2cm,left=1cm,right=1cm}
+
+
+\begin{document}
+
+
+\section{Circuiti}
+
+\begin{myDef}[\textbf{Trail Aperto}]
+Un \textit{trail aperto} su $G$ è un \textit{cammino} in cui gli spigoli non si ripetono
+\end{myDef}
+
+\begin{myDef}[\textbf{Trail Chiuso/Circuito}]
+Un trail su $G$ i cui estremi coincidono è detto \textit{trial chiuso} o \textit{circuito}. 
+\end{myDef}
+
+\begin{myDef}[\textbf{Trail Euleriano/Circuito Euleriano}]
+Un \textit{Trail Euleriano} (tour di Eulero), detto anche \textbf{Circuito Euleriano}, è un trail chiuso che contiene ogni arco di $G$ \textbf{esattamente una volta}. Un grafo è chiamato \textit{Euleriano} se contiene un tour di Eulero.
+\end{myDef}
+
+\begin{myDef}[\textbf{Path}]
+Un \textit{path} su $G$ è un trail in cui \textbf{i vertici non si ripetono} con la sola eccezione, possibilmente, dei vertici estremi.
+\end{myDef}
+
+\begin{myDef}[\textbf{Ciclo}]
+Un path i cui estremi coincidono è detto \textit{ciclo}.
+\end{myDef}
+
+\begin{myDef}[\textbf{Ciclo Hamiltoniano}]
+Un ciclo che passa per tutti i vertici del grafo è detto \textit{Hamiltoniano}.
+\end{myDef}
+
+\begin{myDef}[\textbf{Condizione di esistenza di un \textit{trail Euleriano aperto}}]
+Sia $G(V, E)$ un grafo connesso. $G$ ammette un trail Euleriano \textit{aperto} (cioè un trail aperto che contiene ogni arco di $G$ esattamente una volta) se e solo se i vertici di grado dispari di $G$ sono esattamente due.
+\end{myDef}
+
+\begin{myDef}[\textbf{Condizione di esistenza di un \textit{trail Euleriano chiuso}}]
+Sia $G(V, E)$ un grafo connesso. $G$ ammette un trail Euleriano \textit{chiuso} se ogni vertice di $G$ ha grado \textit{pari} oppure se l'insieme degli spigoli di $G$ può essere partizionato in circuiti disgiunti sugli archi,
+
+\end{myDef}
+
+\newpage
+\section{Grafi}
+
+\begin{myDef}[\textbf{Handshaking}]
+Per un qualunque grafo $G(V,E)$ vale che:
+\begin{equation}
+\sum_{v \in V} deg(v) = 2|E|
+\end{equation}
+\end{myDef}
+
+\begin{myDef}[\textbf{Grafo Complemento}]
+Dato un qualunque grafo $G(V,E)$, il \textit{grafo complemento} di $G$ è $\overline{G}=(V, \binom{V}{2} \setminus E)$
+\end{myDef}
+
+\begin{myDef}[\textbf{Grafo completo}]
+Un grafo $G(V,E)$ si definisce \textit{completo} se ogni vertice $v \in V$ è adiacente a tutti gli $n-1$ vertici restanti. Se un grafo completo ha $n$ vertici esso viene indicato con $K_n$. Ogni grafo completo $K_n$ ha un numero di spigoli pari a $C(n, 2) = \binom{n}{2}$.
+\end{myDef}
+
+
+\begin{myDef}[\textbf{Grafo bipartito}]
+Un grafo $G(V,E)$ si definisce \textit{bipartito} se e soltanto se \textbf{non} contiene \textit{cicli dispari}; in generale tutti i grafi che contengano \textit{cicli pari} sono bipartiti. Il \textit{numero cromatico} nei grafi bipartiti è sempre pari a \textbf{due}, cioè $\chi(G)=2$.
+\end{myDef}
+
+\begin{myDef}[\textbf{Grafo a intervallo}]
+Un grafo $G(V,E)$ si definisce a \textit{intervallo} se dato un insieme di intervalli $I = \lbrace I_1, I_2, \dotsc, I_n \rbrace$ risulta che:
+\begin{itemize}
+\item $V = \lbrace I_1, I_2, \dotsc, I_n \rbrace = I$ cioè ha un solo vertice per ciascun intervallo dell'insieme $I$;
+\item $\lbrace I_a, I_b \rbrace \in E $ se e soltanto se $I_a \cap I_b \neq \emptyset$: in altri termini $G$ possiede uno spigolo per ogni coppia di vertici corrispondenti agli intervalli che si intersecano. 
+\end{itemize}
+\item Gli unici cicli presenti in un grafo a intervallo sono di \textit{lunghezza 3}.
+
+\end{myDef}
+
+\begin{myDef}[\textbf{Grafo planare}]
+Un grafo $G(V,E)$ si definisce \textit{planare} se ha un disegno senza intersezioni. Nei grafi planari il numero cromatico è sempre minore o uguale a 4, cioè $\chi(G) \leq 4$.
+\end{myDef}
+
+\begin{myDef}[\textbf{Connessione}]
+Sia $G(V, E)$ un grafo. Due vertici $u$ e $v$ sono \textit{connessi} se esiste un path di $G$ con estremi $u$ e $v$.
+\end{myDef}
+
+\begin{myDef}[\textbf{Grafo connesso}]
+Un grafo $G(V, E)$ è detto \textit{connesso} se per ogni coppia di vertici distinti $u, v \in V$, $u$ e $v$ sono connessi.
+\end{myDef}
+
+\begin{myDef}[\textbf{Condizione necessaria di aciclicità}]
+
+Condizione necessaria purché un grafo sia \textbf{aciclico} è che il numero degli spigoli sia al più pari al numero dei vertici meno uno. Formalmente:
+
+\begin{equation}
+|E(G)| \leqslant |V(G)| - 1
+\end{equation}
+\end{myDef}
+
+\begin{myDef}[\textbf{Condizione necessaria di connessione}]
+Condizione necessaria purché un grafo sia \textbf{connesso} è che il numero degli spigoli sia almeno pari al numero dei vertici meno uno. Formalmente: 
+
+\begin{equation}
+|E(G)| \geqslant |V (G)| - 1
+\end{equation}
+\end{myDef}
+
+\begin{myDef}[\textbf{Numero componenti connesse nei grafi complemento}]
+Sia $G(V, E)$ un grafo connesso e sia $v \in V$ un suo vertice. Il grafo $\overline{G}$ ha al più $deg(v)$ componenti connesse.
+\end{myDef}
+
+\begin{myDef}[\textbf{Numero vertici nei grafi connessi}]
+Il numero di vertici di grado dispari in un grafo connesso è \textit{sempre pari}.
+\end{myDef}
+
+\begin{myDef}
+Sia $G(V, E)$ un grafo non orientato con $n$ vertici e $n-k$ spigoli. Allora $G$ avrà \textbf{almeno} $k$ componenti connesse.
+\end{myDef}
+
+\begin{myDef}
+Sia $G$ un grafo con $n$ vertici. Allora \textbf{due} qualunque delle seguenti affermazioni implicano la \textbf{terza}:
+\begin{enumerate}
+\item Il grafo $G$ ha \textbf{esattamente} $k$ componenti connesse.
+\item Il grafo $G$ ha $n-k$ spigoli.
+\item Il grafo $G$ è aciclico.
+\end{enumerate}
+\end{myDef}
+
+\begin{myDef}
+Sia $G(V,E)$ un grafo e sia $e \in E$ un suo spigolo. Valgono:
+\begin{enumerate}
+\item Se $G$ è \textit{connesso}, allora il grafo $\overline{G}$ ha al più due componenti connesse.
+\item Se $G$ è \textit{aciclico}, allora il grafo $\overline{G}$ è ancora aciclico e il suo numero di componenti
+connesse è pari al numero di componenti connesse di $G$ più 1.
+\end{enumerate}
+\end{myDef}
+
+\begin{myDef}
+Si definisce \textbf{albero} un grafo aciclico e connesso. Inoltre gli alberi sono \textit{particolari} grafi bipartiti (\textit{più in generale tutti i grafi non orientati aciclici sono bipartiti}). Se l'albero in questione ha $n$ vertici, allora esso ha esattamente $n - 1$ spigoli.
+\end{myDef}
+
+\begin{myDef}
+Per ogni coppia di vertici di un albero, esiste \textbf{uno e un solo} cammino con estremi i due vertici.
+\end{myDef}
+
+\begin{myDef}[\textbf{Pr{\"u}fer code}]
+Il \textit{pr{\"u}fer code} è una sequenza \textbf{univoca} associata ad un albero etichettato. La lunghezza del \textit{pr{\"u}fer code} associato ad un albero di $n$ vertici è pari a $n-2$.
+\end{myDef}
+
+\begin{myProced}[\textbf{Calcolo Pr{\"u}fer code}]
+Allo step $i$-esimo si deve rimuovere la foglia con il valore dell'etichetta più basso (\textbf{escludendo la radice!}) e impostare l'$i$-esimo elemento del pr{\"u}fer code uguale all'etichetta del \textit{padre} della foglia eliminata. L'algoritmo si arresta quando rimangono solo 2 vertici.
+\end{myProced}
+
+\begin{myDef}[\textbf{Matching}]
+Dato un grafo non orientato $G(V, E)$, un matching $M \subseteq E$ è un insieme di spigoli che \textbf{non} hanno estremi in comune.
+\end{myDef}
+
+\begin{myThm}[\textbf{Teorema di Cayley}]
+I diversi alberi con insieme dei vertici $V=\lbrace0,1,2...,n-2,n-1\rbrace$ sono $n^{n-2}$.
+\end{myThm}
+
+\begin{myThm}[\textbf{Teorema di Hall}]
+Un grafo bipartito $G(V_1 \cup V_2, E)$ ammette un matching completo di $V_1$ in $V_2$ se e solo se $\forall A \subseteq V_1$ risulta che $|A| \leq |R(A)|$ dove $|R(A)| \subseteq V_2$ rappresentano i vertici adiacenti ai vertici appartenenti ad $A$.
+\end{myThm}
+
+\begin{myProced}[\textbf{Verificare se un grafo è bipartito o meno}]
+Se si individua un \textit{ciclo dispari} il grafo \textbf{non} è bipartito.\\
+Un altro meccanismo molto semplice consiste \textbf{nel valutare la distanza} di ogni vertice da un vertice qualsiasi. Sia $G(V,E)$ un grafo e sia $v$ il vertice da cui si intende valutare la distanza da tutti gli altri $n-1$ vertici. Sia $L_i$ l'insieme contenente tutti i vertici a distanza $i$ da v. \textit{Se non ci sono vertici di una stessa classe $L_i$
+che risultano \textbf{adiacenti} il grafo è bipartito}
+\end{myProced}
+
+
+
+\newpage
+\section{Colorazione}
+\begin{myDef}
+Dato un grafo $G(V, E)$ il minimo $k$ per cui il grafo è $k$-colorabile, ovvero il numero minimo di colori utilizzati in un coloring ammissibile di G, si indica con $\chi(G)$ ed è chiamato numero cromatico di G.
+\end{myDef}
+
+\begin{myProced}[\textbf{Algoritmo Greedy}]
+
+Sia $G$ un grafo e supponiamo che l'insieme dei disponibili sia ${1, 2, 3 \dotsc,n}$. L'algoritmo Greedy è così definito:
+
+\begin{enumerate}
+\item Scegliere un qualunque ordinamento $w_1, w_2 \dotsc w_n$ dei vertici di $G$.
+\item Per ogni $i$ colora il vertice $w_i$ con un colore $f(w_i)$ pari al più piccolo colore non ancora assegnato
+a vertici a cui $w_i$ è adiacente.
+\end{enumerate}
+
+La qualità della soluzione individuata dall'algoritmo Greedy \textbf{dipende tuttavia dall'ordinamento} dei vertici da colorare eventualmente scelto. In particolare valgono le seguenti considerazioni:
+\begin{enumerate}
+\item Per un qualunque grafo \textbf{esiste un ordinamento} per cui l'algoritmo Greedy restituisce una colorazione \textbf{ottima}, cioè colora G con il minimo numero di colori possibile.
+\item L'algoritmo Greedy \textbf{non} restituisce tuttavia una colorazione ottima per \textbf{qualunque ordinamento} dei vertici.
+\item Se $G$ è un \textit{grafo intervallo}, dopo aver ordinato gli intervalli considerando i loro estremi sinistri in modo crescente, una volta assegnato un numero ad ogni intervallo e aver quindi ottenuto un ordinamento dei vertici $w_1, w_2, \dotsc, w_n$, allora l'algoritmo Greedy colora G con il minimo numero di colori possibile.
+
+\end{enumerate}
+
+\end{myProced}
+
+\begin{myDef}
+Sia $G$ un grafo qualsiasi. Vale sempre $\chi(G) \leq \bigtriangleup(G) + 1$, dove $\bigtriangleup(G)$ rappresenta il grado massimo di un vertice di G. La quantità $\bigtriangleup(G) + 1$ rappresenta un \textit{upper bound} al valore di $\chi(G)$.
+\end{myDef}
+
+\begin{myDef}
+Una \textit{clique} di un grafo $G(V, E)$ è un insieme di vertici a coppie adiacenti. Il \textit{clique number} di $G$, ovvero il numero di vertici della \textit{clique} più grande di G, si indica con $\omega(G)$ e rappresenta il \textit{lower bound} del numero cromatico cioè è vero che $\omega(G) \leq \chi(G)$. 
+\end{myDef}
+
+\begin{myDef}
+Se $G$ è un grafo a intervallo il \textit{clique number} è pari al numero cromatico di $G$, ovvero $\omega(G) = \chi(G)$.
+\end{myDef}
+
+\begin{myDef}
+Il numero minimo di colori utilizzati da una \textit{edge-coloring} di $G$ si indica con $\chi'(G)$. In particolare vale che $\chi'(G) \geq \bigtriangleup(G)$
+\end{myDef}
+
+\begin{myDef}
+Sia $K_n$ un grafo completo. Allora $\chi'(G) = n$ se $n$ è dispari; $\chi'(G) = n - 1$ se $n$ è pari.
+\end{myDef}
+
+
+
+
+
+
+
+
+
+\newpage
+\section{Conteggio}
+
+\begin{myDef}[\textbf{$r$-permutazione}]
+Se $n$ e $r$ sono interi tali che $0 \leq r \leq n$ allora una $r$-permutazione, indicata con $P(n, r)$ è definita come segue:
+
+\begin{equation}
+P(n, r) = \frac{n!}{(n-r)!}
+\end{equation}
+
+\end{myDef}
+
+\begin{myDef}[\textbf{$r$-combinazione}]
+Se $n$ e $r$ sono interi non negativi tali che $0 \leq r \leq n$ allora una $r$-combinazione, indicata con $C(n, r)$ è definita come segue:
+
+\begin{equation}
+C(n, r) = \binom{n}{r} = \frac{n!}{r!(n-r)!}
+\end{equation}
+
+Inoltre valgono le seguenti proprietà:
+
+\begin{equation}
+C(n, r) = C(n, n-r)
+\end{equation}
+
+\begin{equation}
+C(n, 0) = C(n, n) = 1 \qquad \forall n \geqslant 1
+\end{equation}
+
+\begin{equation}
+C(n, 1) = C(n, n - 1) = n \qquad \forall n \geqslant 1
+\end{equation}
+
+\end{myDef}
+
+\begin{myDef}[\textbf{Identità di Pascal}]
+
+Data una $r$-combinazione è vero che:
+
+\begin{equation}
+\binom{n+1}{r} = \binom{n}{r-1} + \binom{n}{r}
+\end{equation}
+
+\begin{equation}
+C(n+1, r) = C(n, r-1) + C(n,r)
+\end{equation}
+
+\end{myDef}
+
+
+\begin{myDef}[\textbf{Regola della somma}]
+Se un certo processo richiede lo svolgimento \textbf{alternativo} di un primo compito, che può essere svolto in $n_1$ modi diversi, oppure di un secondo compito, che può essere svolto in $n_2$ modi diversi, ci sono $n_1 + n_2$ modi di svolgere il processo.
+\end{myDef}
+
+\begin{myDef}[\textbf{Regola del prodotto}]
+Se un certo processo richiede lo svolgimento di un primo compito, che può essere svolto in $n_1$ modi diversi, \textbf{e poi} di un secondo compito, che può essere svolto in $n_2$ modi diversi, ci sono $n_1  n_2$ modi di svolgere il processo.
+\end{myDef}
+
+\begin{myDef}[\textbf{Pigeonhole principle}]
+Se $k + 1$ oggetti devono essere collocati in $k$ scatole, almeno due oggetti termineranno nella stessa scatola. 
+\end{myDef}
+
+\begin{myDef}[\textbf{Pigeonhole principle generalizzato}]
+Se $n$ oggetti devono essere collocati in $k$ scatole, una scatola conterrà almeno $\lceil \frac{n}{k} \rceil$ oggetti.
+\end{myDef}
+
+\begin{myDef}
+Il numero totale di modi in cui è possibile distribuire $n$ elementi \textbf{uguali} a $k$ persone \textbf{con il vincolo di assegnare a ogni persona almeno un elemento} è pari a $C(n-1, k-1)$. In assenza di quest'ultimo vincolo, il numero totale diventa pari a $C(n+k-1, k-1)$.
+\end{myDef}
+
+\begin{myDef}
+Il numero totale di modi in cui è possibile distribuire $n$ elementi \textbf{diversi} a $k$ persone \textbf{con il vincolo di assegnare a ogni persona almeno un elemento} è pari a $P(n, k)$.
+\end{myDef}
+
+\begin{myDef}
+Dato $V = \lbrace v_1, v_2, \dotsc, v_n \rbrace$ un insieme di $n$ vertici, esistono esattamente $2^{C(n,2)}$ differenti grafi $G$ tali che $V(G)=V$.
+\end{myDef}
+
+\begin{myThm}[\textbf{Teorema Binomiale}]
+\begin{equation}
+(x+y)^n = \sum_{k=0}^{n} \binom{n}{k}x^{n-k}y^k
+\end{equation}
+\end{myThm}
+
+\begin{myThm}
+\begin{equation}
+\sum_{k=0}^{n} \binom{n}{k} = 2^n
+\end{equation}
+\end{myThm}
+
+\newpage
+\section{Massimo flusso}
+
+\begin{myDef}[\textbf{Flusso s-t ammissibile}]
+Sia dato un grafo orientato $G(V,E)$ con $|E|=m$ e supponiamo che sia anche data una \textit{funzione di capacità} $c : E \rightarrow \mathbb{R}^+$ sugli archi di G; in altri termini per ogni arco $(u, v) \in E$ esiste una quantità $c_{u,v} \in \mathbb{R}^+$ detta \textit{capacità}. Siano infine dati un nodo (di partenza o sorgente) $s$ e un nodo (di arrivo) $t$.
+Allora il vettore $f \in \mathbb{R}^m$ si definisce \textbf{flusso s-t ammissibile} se e soltanto se sono soddisfatte le seguenti condizioni:
+
+\begin{equation}
+0 \leq f_{u,v} \leq c_{u,v} \qquad \forall (u, v) \in E \qquad \text{(\textbf{vincolo di capacità})}
+\end{equation}
+
+\begin{equation}
+\sum_{u \in N^+(v)} f_{v,u} + \sum_{u \in N^-(v)} f_{u,v} = 0 \qquad \forall v \in V \setminus \lbrace s, t \rbrace \qquad \text{(\textbf{vincolo di bilancio})}
+\end{equation}
+
+Dove $N^+(v)$ e $N^-(v)$  rappresentano, rispettivamente, i \textit{successori} e i \textit{predecessori} di $v$.
+In altri termini il flusso di ogni arco $(u, v) \in E$ deve essere \textbf{non negativo} e \textbf{non deve eccedere la capacità} associata ad esso; inoltre la somma del flusso uscente e di quello entrante in un nodo $v \in V \setminus \lbrace s, t \rbrace$ deve essere nullo.
+\end{myDef}
+
+\begin{myDef}[\textbf{Valore del flusso}]
+Il valore del flusso $val(f)$ è pari alla \textit{somma dei flussi uscenti dal nodo sorgente}. Più in generale, il valore del flusso $val(f)$ è dato dalla differenza tra il flusso uscente ed entrante da e verso il nodo sorgente. Formalmente:
+
+\begin{equation}
+val(f) = \sum_{u \in N^+(s)} f_{s,u} - \sum_{u \in N^-(s)} f_{u,s}
+\end{equation}
+
+\end{myDef}
+
+\begin{myDef}[\textbf{Taglio s-t}]
+Dato un grafo orientato $G(V,E)$ con $s, t \in V$ tali che $s \neq t$ di definisce \textit{taglio $s-t$} $(W_1, W_2)$ una partizione dei nodi in due insiemi $W_1$ e $W_2$ tali che $s \in W_1$ e $t \in W_2$. 
+\end{myDef}
+
+\begin{myDef}[\textbf{Capacità di un taglio s-t}]
+La \textit{capacità} $C(W_1, W_2)$ di un taglio $s-t$ $(W_1, W_2)$ è pari alla somma delle capacità degli archi che hanno il primo estremo in $W_1$ e il secondo estremo in $W_2$:
+
+\begin{equation}
+C(W_1, W_2) = \sum_{\begin{array}{ll} u \in W_1 \\ v \in W_2 \end{array}} c_{u,v}
+\end{equation}
+
+\end{myDef}
+
+\begin{myDef}[\textbf{Cammino s-t aumentante}]
+
+Sia dato un grafo $G(V,E)$ capacitato e siano $s, t \in V$. Un cammino P, non necessariamente orientato, tra $s$ e $t$ è detto \textit{s-t aumentante} rispetto ad un vettore di flusso $f$ se:
+
+\begin{enumerate}
+\item Ogni arco $(u, v) \in E(P)$ che è concorde con la percorrenza da $s$ a $t$ è \textbf{non saturo}; cioè
+\begin{equation}
+c_{u,v}>f_{u,v}
+\end{equation}
+\item Ogni arco $(u, v) \in E(P)$ che è discorde con la percorrenza da $s$ a $t$ è \textbf{non vuoto}; cioè
+\begin{equation}
+f_{u,v}>0
+\end{equation}
+\end{enumerate}
+
+\end{myDef}
+
+\begin{myDef}
+Sia un grafo $G(V,E)$. Se $P$ è un \textit{cammino aumentante} rispetto un vettore di flusso $f$, allora $f$ \textbf{non} è un vettore di flusso massimo e possiamo quindi aumentarne il valore della seguente quantità:
+
+\begin{equation}
+\varepsilon(P) = min(min_{\text{Archi diretti}}(c_{u,v} - f_{u,v}); min_{\text{Archi inversi}}(f_{u,v}))
+\end{equation}
+
+Il nuovo vettore di flusso $f'$ sarà così definito:
+
+\begin{equation}
+f' = \left \lbrace
+\begin{array}{lc}
+        f'_{u,v} = f_{u,v} & \text{per ogni arco} (u,v) \notin E(P, f)   \\
+        f'_{u,v} = f_{u,v} + \varepsilon(P) & \forall (u,v) \in E(P, f) \text{ concorde con la percorrenza da s a t} \\
+        f'_{u,v} = f_{u,v} - \varepsilon(P) & \forall (u,v) \in E(P, f) \text{ discorde con la percorrenza da s a t}  
+\end{array} \right.
+\end{equation}
+
+
+\end{myDef}
+
+\begin{myProced}[\textbf{Algoritmo dei cammini aumentanti o di Ford e Fulkerson}]
+Per individuare un flusso s-t di valore massimo è sufficiente utilizzare l'algoritmo dei cammini aumentanti o di Ford e Fulkerson che consiste in:
+
+\begin{enumerate}
+\item Trovare un cammino s-t aumentante $P$ rispetto un vettore di flusso $f$;
+\item Se $P$ non esiste l'algoritmo termina.
+\item Se $P$ esiste calcola il nuovo flusso $f'$ e poni $f = f'$; successivamente ritorna al punto 1.
+\end{enumerate}
+
+
+\end{myProced}
+
+
+
+\newpage
+\section{Alcuni appunti sulla risoluzione dei problemi di programmazione lineare}
+
+\begin{myDef}[\textbf{Relazione tra Primale e Duale}]
+
+Sia $P_I$ un \textit{problema di programmazione lineare intera} e sia $P$ il \textit{rilassamento lineare} di $P_I$ e sia $D$ il \textit{duale}. Allora valgono le seguenti considerazioni:
+\begin{itemize}
+\item Se una soluzione ammissibile $x$ di $P_I$ e una soluzione ammissibile $y$ di $D$ hanno lo stesso valore, allora
+$x$ e $y$ sono soluzioni ottime per i rispettivi problemi.
+\item Se una soluzione ammissibile $x$ di $P_I$ e una soluzione ammissibile $y$ di $D$ hanno lo stesso valore, allora
+$x$ è una soluzione ottima per il problema $P$.
+\item Se una soluzione ammissibile $x$ di $P$ e una soluzione ammissibile $y$ di $D$ hanno lo stesso valore, allora
+$x$ e $y$ sono soluzioni \textbf{ottime} per i rispettivi problemi.
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+
+\hline
+\backslashbox{\textbf{Primale}}{\textbf{Duale}} & \textbf{Ottimale} & \textbf{Non ammissibile} & \textbf{Illimitato}\\\hline
+
+\textbf{Ottimale} 	     & Possibile & Impossibile & Impossibile \\\hline
+\textbf{Non ammissibile} & Impossibile & Possibile & Possibile \\\hline
+\textbf{Illimitato}      & Impossibile & Possibile & Impossibile \\\hline
+
+
+\end{tabular}
+\end{center}
+
+
+\end{myDef}
+
+\begin{myProced}[\textbf{Guida alla costruzione del duale}]
+
+Ricordiamo brevemente le relazioni tra primale e duale:
+\begin{itemize}
+\item il problema duale di un problema di minimizzazione è un problema di massimizzazione e simmetricamente, il problema duale di un problema di massimizzazione è un problema di minimizzazione;
+\item ad ogni vincolo di uguaglianza del problema primale è associata una variabile nel problema duale non vincolata in segno;
+\item ad ogni vincolo di disuguaglianza (di maggiore o uguale) del problema primale è associata una variabile nel problema duale vincolata in segno;
+\item ad ogni variabile vincolata in segno del problema primale è associato un vincolo di disuguaglianza ($\leq$ se il problema `e di massimizzazione, $\geq$ se il problema è di minimizzazione) del problema duale;
+\item ad ogni variabile non vincolata in segno del problema primale è associato un vincolo di uguaglianza del problema duale.
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{c|ccc|c}
+
+
+& \textbf{Primale} && \textbf{Duale} & \\\hline
+
+& min $c^Tx$ && max $b^Ty$ \\\hline
+
+\textbf{Vincoli} & $= b_i, i \in I$ && $y_i, i \in I, \text{\textit{libere}}$ & \textbf{Variabili} \\
+
+& $\geq b_i, i \in J$ && $y_i, i \in J, y_i \geq 0 $ \\\hline
+
+\textbf{Variabili} & $x_j \geq 0, j \in M$ && $\leq c_j, j \in M$ & \textbf{Vincoli}\\
+
+& $x_j, j \in N, \text{\textit{libere}}$ && $= c_j, j \in N$ \\
+
+\end{tabular}
+\end{center}
+
+Per esempio sia dato il seguente PL:
+
+\begin{center}
+\begin{tabular}{ccccccc}
+
+$max$ & $2x_1$  & $+4x_2$ & $+3x_3$ & $+x_4$ && \\
+      & $3x_1$  & $+x_2$  & $+x_3 $ & $+4x_4$ & $\leq$ & $12$ \\
+      & $x_1$  & $-3x_2$  & $+2x_3 $ & $+3x_4$ & $\leq$ & $7$ \\
+      & $2x_1$  & $+x_2$  & $+3x_3 $ & $-x_4$ & $=$ & $10$ \\
+	
+	  & $x_1$   &&&& $\geq$ & $0$ \\
+	  &&& $x_3$ && $\geq$ & $0$ \\
+	  &&&& $x_4$ & $\geq$ & $0$ \\
+\end{tabular}
+\end{center}
+
+Il suo duale diventa:
+
+\begin{center}
+\begin{tabular}{cccccc}
+
+$min$ & $12y_1$ & $+7y_2$ & $+10y_3$ && \\
+      & $3y_1$  & $+y_2$  & $+2y_3 $ & $\geq$ & $2$ \\
+	  & $y_1$   & $-3y_2$ & $+y_3 $  & $=$    & $4$ \\
+	  & $y_1$   & $+2y_2$ & $+3y_3 $ & $\geq$ & $3$ \\
+	  & $4y_1$  & $+3y_2$ & $-y_3 $ & $\geq$  & $1$ \\
+	  
+	  & $y_1$   &&& $\geq$ & $0$ \\
+	  && $y_2$ && $\geq$ & $0$ \\
+\end{tabular}
+\end{center}
+
+Supponiamo debba studiare la soluzione $(x_1,x_2,\dotsc,x_n)$. Qualora sia \textit{ammissibile} allora per ogni $x_j > 0$ si ha che nel duale risulta che $\sum b_{j}y_{i} = c$ (cioè lo $j$-esimo vincolo del duale presenterà un uguaglianza). Se una componente della soluzione $x_j = 0$ il vincolo corrispondente presenterà una disuguaglianza. (cioè se ho $(3,0)$ allora il secondo vincolo del duale sarà del tipo $y_1 +y_2 + \dotsc + y_n \geq v$.)  Quando si studia l'ammissibilità di una soluzione nel primale se lo $j$-esimo vincolo dato da $\sum a_{j}x_{i}$ e risulti strettamente minore del vincolo, cioè $\sum a_{j}x_{i} < b$, allora la $j$-esima variabile del duale risulta nulla, cioè $y_j = 0$.
+
+
+
+
+
+\end{myProced}
+
+
+
+
+
+\newpage
+\section{Alcuni esercizi d'esame}
+
+\begin{enumerate}
+
+\item $G(V,E)$ è un grafo non orientato con 16 spigoli, 4 componenti connesse e aciclico. Quanti vertici ha? \\
+\textbf{Risposta: $20$}
+
+\item Quanti sono i diversi alberi con insieme dei vertici V = {0, 1, . . . , 7}? (Due alberi sono diversi se esiste almeno una coppia di vertici i, j $\in$ V che sono adiacenti per un albero e non adiacenti per l'altro.) \\
+\textbf{Risposta: $8^6$}
+
+\item Si consideri l'albero T con vertici {0, 1, . . . , } e spigoli {06, 14, 15, 16, 23, 38, 68, 78}. Calcolane il prufer code. \\
+\textbf{Risposta: $3, 8, 1, 1, 6, 8, 6$}
+
+\item Si consideri il grafo non orientato con insieme dei vertici {0, 1, . . . , 7} e insieme degli spigoli {01, 03, 35, 25, 56, 24, 27, 15, 17, 67, 34}. Valutare la distanza di ogni vertice dal vertice 5. Dire quindi se il grafo è bipartito. Per rispondere è necessario riportare la distanza di ogni vertice da 5 e la bipartizione dei vertici o un certificato che tale bipartizione non esiste. \\
+\textbf{Risposta:} È bipartito
+
+\begin{tikzpicture}
+	\node[shape=circle,draw=black] (0) at (7,2) {0};
+    \node[shape=circle,draw=black] (1) at (7,4) {1};
+    \node[shape=circle,draw=black] (2) at (0,5) {2};
+    \node[shape=circle,draw=black] (3) at (3,4) {3};
+    \node[shape=circle,draw=black] (4) at (2.5,2) {4};
+    \node[shape=circle,draw=black] (5) at (2.5,5) {5};
+    \node[shape=circle,draw=black] (6) at (6,6) {6} ;
+    \node[shape=circle,draw=black] (7) at (7,7) {7} ;
+
+    \path [-] (0) edge node {} (1);
+    \path [-] (0) edge node {} (3);
+    \path [-] (3) edge node {} (5);
+    \path [-] (2) edge node {} (5);
+    \path [-] (5) edge node {} (6);
+    \path [-] (2) edge node {} (4);
+    \path [-] (2) edge node {} (7);
+    \path [-] (1) edge node {} (5);
+    \path [-] (1) edge node {} (7);
+    \path [-] (6) edge node {} (7);
+    \path [-] (3) edge node {} (4);
+\end{tikzpicture}
+
+Si valuta la distanza dal nodo $5$ e otteniamo: $L_0 = \lbrace 5 \rbrace$, $L_1 = \lbrace 1,3,2,6 \rbrace$, $L_2 = \lbrace 0,4,7 \rbrace$. Poiché non ci sono vertici di una stessa classe $L_i$ che risultano adiacenti il grafo è bipartito. Le due classi della bipartizione sono date da $V_1 = \lbrace 0, 4, 7, 5\rbrace$ e $V_2 = \lbrace 1, 2, 3, 6 \rbrace$.
+
+
+\item Disponete di 4 server $S = \lbrace A, B,C, D \rbrace$ che volete destinare alla esecuzione di un insieme $P = \lbrace 1, 2, 3, 4, 5, 6, 7, 8 \rbrace$, di processi. Ogni processo $i \in P$ ha un orario di inizio $r_i$ e un orario di completamento $d_i$ per $i = 1..7$, gli intervalli $[r_i, d_i ]$ sono rispettivamente: [11, 12]; [13, 20]; [9, 14]; [1, 8]; [11, 18]; [3, 16]; [5, 8]; [7, 12]; [7, 10].
+Ogni server di S è in grado di svolgere un qualsiasi processo: tuttavia, perché i sia svolto correttamente,
+nell'intervallo  $[r_i, d_i ]$ dovete assegnare a i un server di S in maniera esclusiva (ovvero, in quell'intervallo, il
+server scelto può processare solo i). Fornite un assegnamento dei server ai processi che consenta lo svolgimento corretto di tutti i processi oppure un certificato (ovvero un'evidenza breve e semplice) che dimostri che tale assegnamento non può esistere. \\
+\textbf{Risposta:} 4 server non bastano. \\
+Ordiniamo gli intervalli considerando i loro \textbf{estremi sinistri} (ed, eventualmente, quello destro) in modo \textbf{crescente} e otteniamo: \\
+$[1, 8], [3, 16], [5, 8], [7, 10], [7, 12], [9, 14], [11, 12], [11, 18], [13, 20]$ \\
+Costruiamo il grafo a intervallo in accordo alla definizione: \\
+
+\begin{tikzpicture}
+    \node[shape=circle,draw=black] (1) at (6.5,4) {1};
+    \node[shape=circle,draw=black] (2) at (6.5,5) {2};
+    \node[shape=circle,draw=black] (3) at (3,4) {3};
+    \node[shape=circle,draw=black] (4) at (8,2) {4};
+    \node[shape=circle,draw=black] (5) at (3,5) {5};
+    \node[shape=circle,draw=black] (6) at (8,9) {6};
+    \node[shape=circle,draw=black] (7) at (3,7) {7};
+    \node[shape=circle,draw=black] (8) at (10,7) {8};
+    \node[shape=circle,draw=black] (9) at (10,5) {9};
+
+    \path [-] (1) edge node {} (2);
+    \path [-] (1) edge node {} (3);
+    \path [-] (1) edge node {} (4);
+    \path [-] (1) edge node {} (5);
+    
+    \path [-] (2) edge node {} (3);
+    \path [-] (2) edge node {} (4);
+    \path [-] (2) edge node {} (5);
+    \path [-] (2) edge node {} (6);
+    \path [-] (2) edge node {} (7);
+    \path [-] (2) edge node {} (8);
+    \path [-] (2) edge node {} (9);
+    
+    \path [-] (3) edge node {} (4);
+ 	\path [-] (3) edge node {} (5);
+ 
+    \path [-] (4) edge node {} (5);
+    \path [-] (4) edge node {} (6);
+    
+    \path [-] (5) edge node {} (6);
+    \path [-] (5) edge node {} (7);
+    \path [-] (5) edge node {} (8);
+    
+    \path [-] (6) edge node {} (7);
+    \path [-] (6) edge node {} (8);
+    \path [-] (6) edge node {} (9);
+    
+    \path [-] (7) edge node {} (8);
+    
+    \path [-] (8) edge node {} (9);
+\end{tikzpicture}
+
+Adesso applichiamo \textbf{l'algoritmo Greedy} e otteniamo che:
+
+\begin{tikzpicture}
+    \node[shape=circle,draw=black] (1) at (6.5,4) {$1_0$};
+    \node[shape=circle,draw=black] (2) at (6.5,5) {$2_1$};
+    \node[shape=circle,draw=black] (3) at (3,4) {$3_2$};
+    \node[shape=circle,draw=black] (4) at (8,2) {$4_3$};
+    \node[shape=circle,draw=black] (5) at (3,5) {$5_4$};
+    \node[shape=circle,draw=black] (6) at (8,9) {$6_0$};
+    \node[shape=circle,draw=black] (7) at (3,7) {$7_2$};
+    \node[shape=circle,draw=black] (8) at (10,7) {$8_3$};
+    \node[shape=circle,draw=black] (9) at (10,5) {$9_2$};
+
+    \path [-] (1) edge node {} (2);
+    \path [-] (1) edge node {} (3);
+    \path [-] (1) edge node {} (4);
+    \path [-] (1) edge node {} (5);
+    
+    \path [-] (2) edge node {} (3);
+    \path [-] (2) edge node {} (4);
+    \path [-] (2) edge node {} (5);
+    \path [-] (2) edge node {} (6);
+    \path [-] (2) edge node {} (7);
+    \path [-] (2) edge node {} (8);
+    \path [-] (2) edge node {} (9);
+    
+    \path [-] (3) edge node {} (4);
+ 	\path [-] (3) edge node {} (5);
+ 
+    \path [-] (4) edge node {} (5);
+    \path [-] (4) edge node {} (6);
+    
+    \path [-] (5) edge node {} (6);
+    \path [-] (5) edge node {} (7);
+    \path [-] (5) edge node {} (8);
+    
+    \path [-] (6) edge node {} (7);
+    \path [-] (6) edge node {} (8);
+    \path [-] (6) edge node {} (9);
+    
+    \path [-] (7) edge node {} (8);
+    
+    \path [-] (8) edge node {} (9);
+\end{tikzpicture}
+
+Da cui risulta che $\chi(G) = 5$ e poiché per il grafo è a intervallo risulta che il \textit{clique number} è uguale al numero cromatico. Per cui la \textit{clique} è pari a $[1, 8], [3, 16], [5, 8], [7, 10], [7, 12]$. Per cui 4 server non bastano.
+
+\item In quanti modi diversi 7 buste possono essere assegnate a 7 persone, se ognuna di esse riceve esattamente
+una busta? \\
+\textbf{Risposta: $7!$}
+
+\item In quanti modi diversi 7 buste identiche possono essere assegnate a 7 persone, se non è richiesto che
+ogni persona riceva una busta? \\
+\textbf{Risposta: $C(7+7-1, 7-1)=C(13,6)$}
+
+
+\item 16 Giocatori di tennis decidono di giocare un doppio. Quante coppie distinte si possono formare? \\
+\textbf{Risposta: $\binom{16}{2}\cdot\binom{14}{2}\cdot\binom{12}{2}\cdot...\cdot\binom{2}{2}$}
+
+\item  Una volta formate le 8 coppie, quante distinte partite (coppia contro coppia) si possono giocare? \\
+\textbf{Risposta: $C(8,2)$}
+
+\item Avete un insieme X di oggetti e volete assegnare a ciascun oggetto di X un codice. Per semplicità ogni
+codice sarà dato da una sequenza ordinata di 3 caratteri, dove ogni carattere è preso dall'insieme di caratteri
+{A, B,C, D, E, 1, 2, 3, 4, 5} e nessun carattere si ripete (quindi, per esempio: 1D2 e DAC sono codice ammissibili, 1DD non è un codice ammissibile e infine 1D2 e 2D1 sono codici ammissibili e diversi tra loro).
+Quanti oggetti devono essere presenti al più in X perché ogni oggetto riceva un codice diverso? \\
+\textbf{Risposta: $P(10,3)$}
+
+\item Sia $K_{11}$ il grafo non orientato, con 11 vertici e completo (ovvero tale che tutti i vertici sono adiacenti l'un
+l'altro). Siano $u$ e $v$ due particolari vertici di $K_{11}$. Quanti sono i diversi cammini da u a v con 4 spigoli?
+(Ricordiamo che in un cammino tutti i vertici sono distinti. Due cammini sono diversi se esiste almeno uno
+spigolo che appartiene ad un cammino e non all'altro.) \\
+\textbf{Risposta: $P(9,3)$}
+
+\item Considerate nuovamente il grafo $K_{11}$ e siano u, v e z tre particolari vertici di $K_11$. Quanti sono i diversi
+cammini da u a v con 4 spigoli e che non passano per il vertice z? \\
+\textbf{Risposta: $P(8,3)$} 
+
+\item Considerate nuovamente il grafo $K_{11}$ e siano u, v e z tre particolari vertici di K 11. Quanti sono i diversi
+cammini da u a v con 4 spigoli e tali che il terzo vertice del cammino sia z? \\
+\textbf{Risposta: $P(8,2)$}
+
+\item In quanti modi diversi 8 frittelle di gusti diversi possono essere assegnate a 8 bambini, con il vincolo che
+ogni bambino riceva una frittella? \\
+\textbf{Risposta: $8!$}
+
+\item In quanti modi diversi 8 frittelle uguali possono essere assegnate a 8 bambini, assumendo che non necessariamente ogni bambino riceva una frittella? \\
+\textbf{Risposta: $C(15, 7)$}
+
+\item Individuare un flusso $s-t$ di valore massimo per la rete disegnata in figura, utilizzando l'algoritmo dei cammini aumentanti e partendo dal flusso iniziale dato, e certificane l'ottimalità. Per illustrare lo svolgimento
+dell'algoritmo, è sufficiente indicare tutti i cammini aumentanti scelti con l'indicazione per ogni arco di
+quanto è aumentato o diminuito il valore del flusso.
+
+\begin{tikzpicture}
+    \node[shape=circle,draw=black] (S) at (0,3) {S};
+    
+    \node[shape=circle,draw=black] (A) at (3,6) {A};
+    \node[shape=circle,draw=black] (B) at (3,3) {B};
+    \node[shape=circle,draw=black] (C) at (3,0) {C};
+    
+    \node[shape=circle,draw=black] (D) at (6,6) {D};
+    \node[shape=circle,draw=black] (E) at (6,3) {E};
+    \node[shape=circle,draw=black] (F) at (6,0) {F};
+    
+    \node[shape=circle,draw=black] (T) at (9,3) {T};
+
+\begin{scope}[>={Stealth[black]},
+              every node/.style={fill=white,circle},
+              every edge/.style={draw=black,very thick}]
+
+    \path [->] (S) edge node {10/3} (A);
+    \path [->] (S) edge node {8/-} (B);
+    \path [->] (S) edge node {7/1} (C);
+    
+    \path [->] (A) edge node {4/3} (D);
+    \path [->] (B) edge node {8/-} (E);
+    \path [->] (C) edge node {4/2} (F);
+    
+    \path [->] (D) edge node {8/-} (T);
+    \path [->] (E) edge node {4/3} (T);
+    \path [->] (F) edge node {8/1} (T);
+    
+    \path [->] (A) edge node {9/-} (B);
+    \path [->] (B) edge node {2/1} (C);
+    
+    \path [->] (D) edge node {3/2} (E);
+    \path [->] (F) edge node {3/1} (E);
+    
+    \path [->] (D) edge node {1/1} (B);
+    \path [->] (C) edge node {7/-} (E);
+\end{scope}
+
+\end{tikzpicture}
+
+Allora i cammini aumentati sono:
+\begin{enumerate}
+\item $P_1 = \lbrace S,C,F,T \rbrace$ dove $\varepsilon(P_1) = 2$ e abbiamo che $f_{S,C}=3$,$f_{C,F}=4$,$f_{F,T}=3$
+\item $P_2 = \lbrace S,A,D,T \rbrace$ dove $\varepsilon(P_2) = 1$ e abbiamo che $f_{S,A}=4$,$f_{A,D}=4$,$f_{D,T}=1$
+\item $P_3 = \lbrace S,B,E,T \rbrace$ dove $\varepsilon(P_3) = 1$ e abbiamo che $f_{S,B}=1$,$f_{B,E}=1$,$f_{E,T}=4$
+\item $P_4 = \lbrace S,B,E,D,T \rbrace$ dove $\varepsilon(P_4) = 2$ e abbiamo che $f_{S,B}=3$,$f_{B,E}=3$,$f_{D,E}=0,f_{D,T}=3 $
+\item $P_5 = \lbrace S,B,D,T \rbrace$ dove $\varepsilon(P_5) = 1$ e abbiamo che $f_{S,B}=4$,$f_{B,D}=0$,$f_{D,T}=4$
+\item $P_6 = \lbrace S,B,E,F,T \rbrace$ dove $\varepsilon(P_6) = 1$ e abbiamo che $f_{S,B}=5$,$f_{B,E}=4$,$f_{E,F}=0$, $f_{F,T}=4$
+\end{enumerate}
+
+Il flusso così ottenuto ha valore 12 e la sua massimalità è certificata dal taglio $S_1 = \lbrace S, A, B, C, E \rbrace$ , $S_2 = \lbrace F,D,T \rbrace$
+
+
+\item Si consideri il grafo bipartito G con insieme dei vertici {a, b, c, d, e, f , g, h, i, l, m} e adiacenze definite dalle
+seguenti liste: ad j[a] = { f , g, h, i}; ad j[b] = {h, l}; ad j[c] = {l}; ad j[d] = {h, i, l, m}; ad j[e] = {h, l};
+ad j[ f ] = {a}; ad j[g] = {a}; ad j[h] = {a, b, d, e}; ad j[i] = {a, d}; ad j[l] = {b, c, e}; ad j[m] = {d}. Si
+consideri il matching M = {ag, bh, cl, di}. Si certifichi l'ottimalità di tale matching esibendo un minimo
+taglio per un problema di massimo flusso su una rete ausiliaria oppure se ne certifichi la non l'ottimalità esibendo un cammino aumentante sulla stessa rete. Per rispondere all'esercizio, esibire un taglio minimo della
+rete ausiliaria oppure un matching di cardinalità maggiore: non è necessario disegnare la rete ausiliaria, ma
+se preferite disegnarla va bene.
+3.1. Sia quindi X la classe della bipartizione che contiene il vertice c. Dire quindi se G ammette un matching
+X-completo e in caso contrario fornire un insieme che viola la condizione di Hall. \\
+
+Disegniamo il grafo:
+
+\begin{multicols}{2}
+
+
+\begin{tikzpicture}
+
+    \node[shape=circle,draw=black] (A) at (2,12) {A};   
+	\node[shape=circle,draw=black] (B) at (2,10) {B};  
+	\node[shape=circle,draw=black] (C) at (2,8) {C};  
+	\node[shape=circle,draw=black] (D) at (2,6) {D};  
+	\node[shape=circle,draw=black] (E) at (2,4) {E};  
+    
+    \node[shape=circle,draw=black] (F) at (4,12) {F};
+    \node[shape=circle,draw=black] (G) at (4,10) {G};
+    \node[shape=circle,draw=black] (H) at (4,8) {H};
+    \node[shape=circle,draw=black] (I) at (4,6) {I};
+    \node[shape=circle,draw=black] (L) at (4,4) {L};
+    \node[shape=circle,draw=black] (M) at (4,2) {M};
+    
+    \path [-] (A) edge node {} (F);
+	\path [-] (A) edge node {} (G);
+    \path [-] (A) edge node {} (H);
+    \path [-] (A) edge node {} (I);
+    
+    \path [-] (B) edge node {} (H);
+    \path [-] (B) edge node {} (L);
+    
+	\path [-] (C) edge node {} (L);
+	
+	\path [-] (D) edge node {} (H);
+	\path [-] (D) edge node {} (I);
+	\path [-] (D) edge node {} (L);
+	\path [-] (D) edge node {} (M);
+	
+	\path [-] (E) edge node {} (H);
+	\path [-] (E) edge node {} (L);
+	
+\end{tikzpicture}
+\columnbreak
+
+\begin{tikzpicture}
+	\node[shape=circle,draw=black] (S) at (0,8) {S}; 
+
+    \node[shape=circle,draw=black] (A) at (2,12) {A};   
+	\node[shape=circle,draw=black] (B) at (2,10) {B};  
+	\node[shape=circle,draw=black] (C) at (2,8) {C};  
+	\node[shape=circle,draw=black] (D) at (2,6) {D};  
+	\node[shape=circle,draw=black] (E) at (2,4) {E};  
+    
+    \node[shape=circle,draw=black] (F) at (4,12) {F};
+    \node[shape=circle,draw=black] (G) at (4,10) {G};
+    \node[shape=circle,draw=black] (H) at (4,8) {H};
+    \node[shape=circle,draw=black] (I) at (4,6) {I};
+    \node[shape=circle,draw=black] (L) at (4,4) {L};
+    \node[shape=circle,draw=black] (M) at (4,2) {M};
+    
+    \node[shape=circle,draw=black] (T) at (6,8) {T}; 
+    
+    \begin{scope}[>={Stealth[black]},
+              every edge/.style={draw=black,very thick}]
+    
+    \path [->] (S) edge node {} (A);
+	\path [->] (S) edge node {} (B);
+	\path [->] (S) edge node {} (C);
+	\path [->] (S) edge node {} (D);
+    \path [->] (S) edge node {} (E);
+    
+	\path [->] (F) edge node {} (T);
+    \path [->] (G) edge node {} (T);
+    \path [->] (H) edge node {} (T);
+    \path [->] (I) edge node {} (T);
+    \path [->] (L) edge node {} (T);
+    \path [->] (M) edge node {} (T);   
+    
+    \path [->] (A) edge node {} (F);
+	\path [->] (A) edge node {} (G);
+    \path [->] (A) edge node {} (H);
+    \path [->] (A) edge node {} (I);
+    
+    \path [->] (B) edge node {} (H);
+    \path [->] (B) edge node {} (L);
+    
+	\path [->] (C) edge node {} (L);
+	
+	\path [->] (D) edge node {} (H);
+	\path [->] (D) edge node {} (I);
+	\path [->] (D) edge node {} (L);
+	\path [->] (D) edge node {} (M);
+	
+	\path [->] (E) edge node {} (H);
+	\path [->] (E) edge node {} (L);
+	
+	\end{scope}	
+	
+\end{tikzpicture}
+
+\end{multicols}
+
+Possiamo quindi individuare un massimo matching \textbf{risolvendo un problema di massimo flusso} da cui risulta che il matching dato è di cardinalità massima in quanto il nodo $t$ non è raggiungibile tramite cammini aumentanti da $s$. Il certificato di ottimalità di tale matching è dato dal taglio $(S_1, S_2)$ con $S_1 =\lbrace s, b, c, e, h, l \rbrace$ e $S_2 = \lbrace a, d, f, g, i, m, t \rbrace$ di capacità 4.
+
+Infine, G non ammette un matching X-completo, e l'insieme di vertici $Q \subseteq X$ che \textbf{viola} la condizione di Hall è $Q = \lbrace b, c, e \rbrace$, infatti $R(Q) = \lbrace h, l \rbrace$, da cui $|R(Q)| < |Q| = 3$.
+
+
+
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+
+\end{document}
+
+
+
+
